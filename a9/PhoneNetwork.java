@@ -69,4 +69,25 @@ public class PhoneNetwork {
 		
 	}
 	
+	
+	public Customer customerMakingMostCalls() {
+		int max = 0, maxIndex = 0;
+		for (int i=0; i<customers.size(); i++)
+			if ((outgoingCalls.get(customers.get(i).getNumber())).size() > max) {
+				max = (outgoingCalls.get(customers.get(i).getNumber())).size(); 
+				maxIndex = i;
+			}
+		return customers.get(maxIndex);
+	}
+	
+	
+	public Customer customerReceivingMostCalls() {
+		int max = 0, maxIndex = 0;
+		for (int i=0; i<customers.size(); i++)
+			if ((incomingCalls.get(customers.get(i).getNumber())).size() > max) {
+				max = (incomingCalls.get(customers.get(i).getNumber())).size(); 
+				maxIndex = i;
+			}
+		return customers.get(maxIndex);
+	}
 }
