@@ -41,4 +41,32 @@ public class PhoneNetwork {
 			t.getPlan().setMinutesUsed(t.getPlan().getMinutesUsed()+((int) Math.ceil(seconds/60.0)));
 		}
 	}
+	
+	
+	public ArrayList<Customer> getCustomers() { return customers; }
+	
+	
+	public void displayStats() {
+		
+		String dataFormat = "| %-12s | %-20s | %3d | %2d |  %4d  |  %4d  |  %4d  |  %4.2f  |  %6.2f  |  %3.2f  |  %6.2f  |%n";
+
+		System.out.format("+--------------+----------------------+-----+----+--------+--------+--------+---------+----------+--------+----------+%n");
+		System.out.printf("| PHONE NUMBER | NAME                 | OUT | IN |  PLAN  |  USED  |  OVER  |   BASE  |   EXTRA  |   HST  |   TOTAL  |%n");
+		System.out.format("+--------------+----------------------+-----+----+--------+--------+--------+---------+----------+--------+----------+%n");
+		
+		for (Customer c: customers) {
+			int over = c.getPlan().getMinutesUsed()-c.getPlan().getMinutesAllowed()>0? c.getPlan().getMinutesUsed()-c.getPlan().getMinutesAllowed():0;
+			float base = (float) (20 + Math.ceil((c.getPlan().getMinutesAllowed()-100)/100.0)*5);
+			float extra = over * .15f;
+			float hst = (base + extra) * .13f;
+			float total = base + extra + hst;
+			
+		    System.out.format(dataFormat, c.getNumber(), c.getName(), (outgoingCalls.get(c.getNumber()).size()), (incomingCalls.get(c.getNumber()).size()), c.getPlan().getMinutesAllowed(),
+		    		c.getPlan().getMinutesUsed(), over, base, extra, hst, total);
+		}
+		
+		System.out.format("+--------------+----------------------+-----+----+--------+--------+--------+---------+----------+--------+----------+%n");
+		
+	}
+	
 }
