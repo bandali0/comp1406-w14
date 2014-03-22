@@ -90,4 +90,13 @@ public class PhoneNetwork {
 			}
 		return customers.get(maxIndex);
 	}
+	
+	
+	public boolean wasCallMade(String n1, String n2) {
+		if (outgoingCalls.containsKey(n1))
+			for (Call c: outgoingCalls.get(n1))
+				if (c.getMadeTo().getNumber().equals(n2))
+					return true;
+		return false;
+	}
 }
