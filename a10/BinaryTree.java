@@ -14,4 +14,16 @@ public class BinaryTree {
 		leftChild = left;
 		rightChild = right;
 	}
+	
+	public BinaryTree getLeftChild() {
+		return leftChild;
+	}
+	
+	public BinaryTree getRightChild() {
+		return rightChild;
+	}
+	
+	public boolean hasSameStructureAs(BinaryTree tree) {
+		return false;
+	}
 }
