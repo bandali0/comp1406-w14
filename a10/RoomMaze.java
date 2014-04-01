@@ -2,6 +2,9 @@ public class RoomMaze {
 	public static byte	ROWS = 8;
 
 	private byte[][]	wallTable;
+	
+	private final int NOT_VISITED_BEFORE = 1;
+	private final byte FIRST_ROOM = 2;
 
 
 	public RoomMaze() {
@@ -19,19 +22,56 @@ public class RoomMaze {
 
 	public byte getWall(int r, int c) { return wallTable[r][c]; }
 
+	
 	public int identifyRooms() {
-		// Go through each location in the maze. If there is not a
-		// wall there, then start tracing out the room recursively.
-		// Keep count of how many rooms are traced out and assign
-		// a colorIndex (i.e., store it in the wallTable) to each
-		// room being traced.   Wall locations MUST have a value
-		// of zero in the wallTable.  You may add attributes to this
-		// class if you need to.
-		return 1; // Replace this line
+		return iRHelper(0, 0, FIRST_ROOM)-1;
 	}
 
+	
+	private int iRHelper(int r, int c, byte index) {
+		
+		if (c == ROWS) {
+			r++;  // go to the next row
+			c = 0;  // at the first column
+        }
+		
+//		  The base case for recursion
+		if (r == ROWS)
+			return index;
+        
+//        Main recursion stuff from here
+		if (getWall(r, c) == NOT_VISITED_BEFORE)
+            traceRoomFrom(r, c, index++);
 
-	public void traceRoomFrom(int r, int c, byte colorIndex) {
-		// Code missing.  This method MUST be directly recursive
-	}
+        return iRHelper(r, ++c, index);  // recurse (to the next column)
+    }
+	
+   
+    public void traceRoomFrom(int r, int c, byte colorIndex) {
+        
+    	if (getWall(r, c) == NOT_VISITED_BEFORE) {
+        	
+//            Set the color index of the current square
+    		wallTable[r][c] = colorIndex;
+            
+//            Look at the square above it
+            if (r > 0)
+            	traceRoomFrom(--r, c, colorIndex);
+            
+//            Look at the square to the right
+            if (c < ROWS-1)
+            	traceRoomFrom(++r, ++c, colorIndex);
+            
+//            Look at the square below it
+            if (r < ROWS-1)
+            	traceRoomFrom(++r, --c, colorIndex);
+            
+//            Look at the square to the left
+            if (c > 0)
+            	traceRoomFrom(--r, --c, colorIndex);
+            
+        
+    	}
+    	
+    }
 }
